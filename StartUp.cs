@@ -21,8 +21,7 @@ public class StartUp : MonoBehaviour
             typeof(TransformMatrix),
             typeof(Position),
             typeof(MeshInstanceRenderer),
-            typeof(PlayerInput),
-            typeof(Gravity)
+            typeof(PlayerInput)
         );
 
         for (int x = -3; x < 3; x += 2)

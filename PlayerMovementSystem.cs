@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class PlayerMovementSystem : JobComponentSystem
 {
-    public struct PlayerInputJob : IJobProcessComponentData<Position, PlayerInput, Gravity>
+    public struct PlayerInputJob : IJobProcessComponentData<Position, PlayerInput>
     {
-        public void Execute(ref Position position, ref PlayerInput playerInput, ref Gravity gravity)
+        public void Execute(ref Position position, ref PlayerInput playerInput)
         {
             // Move left and right
             position.Value.x += playerInput.Horizontal;
 
             //check wether in the air(above floor level) and not jumping, if true fall down
             //TODO: create actual collision with floor
-            if (position.Value.y >= -1 && gravity.JumpTime >= 0)
+            if (position.Value.y >= -1 && playerInput.JumpTime >= 0)
             {
                 position.Value.y += -0.12f;
             }           
@@ -22,15 +22,15 @@ public class PlayerMovementSystem : JobComponentSystem
             //check wether on the floor and jump button is pressed. if true, set jumptime to 12 which allows jumping
             if(position.Value.y < -1 && playerInput.Vertical == 1)
             {
-                gravity.JumpTime = 12;
+                playerInput.JumpTime = 12;
                 Debug.Log("Jump mothafucka Jump!!!");
             }
 
             //check wether jumping is allowed, if true move up
-            if(gravity.JumpTime > 0)
+            if(playerInput.JumpTime > 0)
             {
                 position.Value.y += .4f;
-                gravity.JumpTime -= 1;
+                playerInput.JumpTime -= 1;
             }
         }
     }
